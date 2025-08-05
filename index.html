@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSSE SIMU - Data Learning Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>
+                BSSE SIMU Portal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#data-entry"><i class="fas fa-plus-circle me-1"></i>Record Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analytics"><i class="fas fa-chart-bar me-1"></i>Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#students"><i class="fas fa-users me-1"></i>Students</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i>Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#profile"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="#settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1 class="page-title">
+                            <i class="fas fa-tachometer-alt me-3"></i>
+                            Dashboard
+                        </h1>
+                        <p class="page-subtitle">Welcome to BSSE SIMU Data Learning Portal</p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalStudents">0</h3>
+                                <p>Total Students</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalRecords">0</h3>
+                                <p>Learning Records</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="avgProgress">0%</h3>
+                                <p>Average Progress</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="todayRecords">0</h3>
+                                <p>Today's Records</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="row">
+                    <div class="col-lg-8 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Learning Activities</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentActivities" class="activity-list">
+                                    <!-- Activities will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Top Performers</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="topPerformers" class="performer-list">
+                                    <!-- Top performers will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Entry Section -->
+        <section id="data-entry" class="content-section">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1 class="page-title">
+                            <i class="fas fa-plus-circle me-3"></i>
+                            Record Learning Data
+                        </h1>
+                        <p class="page-subtitle">Track student learning progress and activities</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="dataEntryForm">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="studentId" class="form-label">Student ID</label>
+                                            <input type="text" class="form-control" id="studentId" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="studentName" class="form-label">Student Name</label>
+                                            <input type="text" class="form-control" id="studentName" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="course" class="form-label">Course</label>
+                                            <select class="form-select" id="course" required>
+                                                <option value="">Select Course</option>
+                                                <option value="data-structures">Data Structures & Algorithms</option>
+                                                <option value="web-development">Web Development</option>
+                                                <option value="database-systems">Database Systems</option>
+                                                <option value="software-engineering">Software Engineering</option>
+                                                <option value="machine-learning">Machine Learning</option>
+                                                <option value="mobile-development">Mobile Development</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="semester" class="form-label">Semester</label>
+                                            <select class="form-select" id="semester" required>
+                                                <option value="">Select Semester</option>
+                                                <option value="1">1st Semester</option>
+                                                <option value="2">2nd Semester</option>
+                                                <option value="3">3rd Semester</option>
+                                                <option value="4">4th Semester</option>
+                                                <option value="5">5th Semester</option>
+                                                <option value="6">6th Semester</option>
+                                                <option value="7">7th Semester</option>
+                                                <option value="8">8th Semester</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="activityType" class="form-label">Activity Type</label>
+                                            <select class="form-select" id="activityType" required>
+                                                <option value="">Select Activity</option>
+                                                <option value="lecture">Lecture Attendance</option>
+                                                <option value="assignment">Assignment Submission</option>
+                                                <option value="quiz">Quiz/Test</option>
+                                                <option value="project">Project Work</option>
+                                                <option value="lab">Lab Session</option>
+                                                <option value="presentation">Presentation</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="score" class="form-label">Score/Grade (%)</label>
+                                            <input type="number" class="form-control" id="score" min="0" max="100" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="learningObjectives" class="form-label">Learning Objectives Covered</label>
+                                        <div class="form-check-container">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="obj1" value="problem-solving">
+                                                <label class="form-check-label" for="obj1">Problem Solving</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="obj2" value="critical-thinking">
+                                                <label class="form-check-label" for="obj2">Critical Thinking</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="obj3" value="technical-skills">
+                                                <label class="form-check-label" for="obj3">Technical Skills</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="obj4" value="collaboration">
+                                                <label class="form-check-label" for="obj4">Collaboration</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="obj5" value="communication">
+                                                <label class="form-check-label" for="obj5">Communication</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="notes" class="form-label">Additional Notes</label>
+                                        <textarea class="form-control" id="notes" rows="3" placeholder="Enter any additional observations or notes..."></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="dateTime" class="form-label">Date & Time</label>
+                                        <input type="datetime-local" class="form-control" id="dateTime" required>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-save me-2"></i>Save Learning Record
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">
+                                            <i class="fas fa-undo me-2"></i>Reset Form
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="content-section">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1 class="page-title">
+                            <i class="fas fa-chart-bar me-3"></i>
+                            Learning Analytics
+                        </h1>
+                        <p class="page-subtitle">Visualize and analyze learning progress data</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Progress Over Time</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="progressChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Course Performance</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="courseChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-8 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Learning Objectives Achievement</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="objectivesChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Activity Distribution</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="activityChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Export Data</h5>
+                                <div>
+                                    <button class="btn btn-success btn-sm" onclick="exportToCSV()">
+                                        <i class="fas fa-file-csv me-1"></i>Export CSV
+                                    </button>
+                                    <button class="btn btn-info btn-sm ms-2" onclick="exportToJSON()">
+                                        <i class="fas fa-file-code me-1"></i>Export JSON
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">Export learning data for external analysis and reporting.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Students Section -->
+        <section id="students" class="content-section">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1 class="page-title">
+                            <i class="fas fa-users me-3"></i>
+                            Student Management
+                        </h1>
+                        <p class="page-subtitle">Manage student profiles and track individual progress</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="studentSearch" placeholder="Search students...">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                            <i class="fas fa-plus me-2"></i>Add New Student
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="studentsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>Name</th>
+                                                <th>Semester</th>
+                                                <th>Total Records</th>
+                                                <th>Average Score</th>
+                                                <th>Last Activity</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="studentsTableBody">
+                                            <!-- Student data will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addStudentForm">
+                        <div class="mb-3">
+                            <label for="newStudentId" class="form-label">Student ID</label>
+                            <input type="text" class="form-control" id="newStudentId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newStudentName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="newStudentName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newStudentEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="newStudentEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newStudentSemester" class="form-label">Current Semester</label>
+                            <select class="form-select" id="newStudentSemester" required>
+                                <option value="">Select Semester</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                                <option value="3">3rd Semester</option>
+                                <option value="4">4th Semester</option>
+                                <option value="5">5th Semester</option>
+                                <option value="6">6th Semester</option>
+                                <option value="7">7th Semester</option>
+                                <option value="8">8th Semester</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addStudent()">Add Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
