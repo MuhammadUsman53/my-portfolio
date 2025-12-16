@@ -54,3 +54,4 @@ if __name__ == "__main__":
     # Test on generated test images
     test_single_image(model, "test_image_yes.jpg", "Tumor")
     test_single_image(model, "test_image_no.jpg", "No Tumor")
+
