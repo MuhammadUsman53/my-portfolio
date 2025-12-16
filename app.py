@@ -74,7 +74,8 @@ def load_model():
 
 def import_and_predict(image_data, model):
     size = (224, 224)    
-    image = ImageOps.fit(image_data, size, Image.Resampling.LANCZOS)
+    image = image_data.resize(size)
+    # image = ImageOps.fit(image_data, size, Image.Resampling.LANCZOS) # fit crops the center, which might miss the tumor
     img = np.asarray(image)
     img = img / 255.0
     img_reshape = np.expand_dims(img, axis=0)
