@@ -1,81 +1,84 @@
-# 🧠 Brain Tumor Detection System
+# 🫁 Pneumonia Detection System
 
-This project is a Deep Learning application that detects brain tumors from MRI scans using a Convolutional Neural Network (CNN). The application is built using TensorFlow/Keras and deployed using Streamlit.
+This project is a Deep Learning application built with Python, TensorFlow/Keras, and Streamlit to detect Pneumonia from chest X-ray images. It uses a Transfer Learning approach with the MobileNetV2 architecture.
 
 ## 📁 Project Structure
 
-- `app.py`: The main Streamlit application for the user interface.
-- `train_model.py`: Script to train the CNN model (MobileNetV2).
-- `requirements.txt`: List of Python dependencies.
-- `brain_tumor_model.h5`: The trained model file (generated after training).
-- `data/`: Directory where the dataset should be stored.
+```
+project/
+├── app.py                # Streamlit Application
+├── train_model.py        # Model Training Script
+├── requirements.txt      # Project Dependencies
+├── README.md             # Documentation
+└── dataset/              # Dataset Directory (Not included in repo)
+    ├── train/
+    │   ├── NORMAL/
+    │   └── PNEUMONIA/
+    └── test/             # Optional
+        ├── NORMAL/
+        └── PNEUMONIA/
+```
 
-## 🚀 Setup & Installation
+## 🚀 Setup Instructions
 
-1.  **Install Dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+### 1. Install Dependencies
+Open your terminal and run:
+```bash
+pip install -r requirements.txt
+```
 
-2.  **Prepare Dataset:**
-    - You need a Brain Tumor MRI dataset.
-    - Recommended: [Kaggle Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) or any similar dataset with "Tumor" and "No Tumor" classes.
-    - Extract the dataset into a folder named `data`.
-    - The structure should look like this:
-        ```
-        data/
-        ├── train/
-        │   ├── no/
-        │   └── yes/
-        └── val/
-            ├── no/
-            └── yes/
-        ```
-    - *Note: If your dataset has different folder names, please rename them to `no` (no tumor) and `yes` (tumor) inside `train` and `val` directories.*
+### 2. Download Dataset
+You need a Pneumonia Chest X-Ray dataset. You can download one from Kaggle:
+- [Chest X-Ray Images (Pneumonia) on Kaggle](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia)
 
-    **Testing with Dummy Data:**
-    If you don't have a dataset yet, you can generate a dummy dataset for testing the pipeline:
-    ```bash
-    python train_model.py --demo
-    ```
+**Important:**
+1. Download the dataset.
+2. Extract the files.
+3. Create a folder named `dataset` in this project directory.
+4. Move the `train` (and optionally `test`/`val`) folders into `dataset`.
+   - Ensure you have `dataset/train/NORMAL` and `dataset/train/PNEUMONIA`.
 
-3.  **Train the Model:**
-    Run the training script to build and save the model:
-    ```bash
-    python train_model.py
-    ```
-    This will save the model as `brain_tumor_model.h5`.
+### 3. Organize Dataset
+To enable Bacteria vs Virus detection, we need to sort the dataset.
+1. Ensure your `dataset` folder is structured as:
+   ```
+   dataset/
+   └── train/
+       ├── NORMAL/
+       └── PNEUMONIA/
+   ```
+2. Run the organization script:
+   ```bash
+   python organize_dataset.py
+   ```
+   This will automatically split `PNEUMONIA` into `BACTERIA` and `VIRUS`.
 
-4.  **Run the Application:**
-    Start the Streamlit app:
-    ```bash
-    streamlit run app.py
-    ```
+### 4. Train the Model
+Run the training script to generate the `pneumonia_model.h5` file:
+```bash
+python train_model.py
+```
+*Note: Make sure your `dataset` folder is set up correctly before running this.*
 
-## 🛠️ Technologies Used
-- **Python**
-- **TensorFlow / Keras** (Deep Learning)
-- **MobileNetV2** (Transfer Learning)
-- **Streamlit** (Web Interface)
-- **OpenCV & NumPy** (Image Processing)
+### 4. Run the Application
+Start the Streamlit app:
+```bash
+streamlit run app.py
+```
 
-## 📝 Assignment Detail
-This project fulfills the requirements for the Python + Deep Learning Assignment:
-- Uses a pre-trained CNN (MobileNetV2).
-- Validates on Tumor/No Tumor classes.
-- Includes a user-friendly Streamlit interface.
+## 🌐 Deployment (Streamlit Cloud)
 
-## 🌐 Deployment to Streamlit Cloud
+1. Push this code to a GitHub repository (ensure `dataset` is ignored via `.gitignore`).
+2. Go to [Streamlit Cloud](https://streamlit.io/cloud).
+3. Connect your GitHub account and select your repository.
+4. Select `app.py` as the main file.
+5. Click **Deploy**!
 
-1.  **Push to GitHub:**
-    - Initialize a git repository: `git init`
-    - Add files: `git add .`
-    - Commit: `git commit -m "Initial commit"`
-    - Push to a new public repository on GitHub.
+## 🧪 Model Details
+- **Architecture**: MobileNetV2 (Pre-trained on ImageNet) + Custom Dense Head
+- **Input Size**: 224x224
+- **Classes**: Normal, Pneumonia
 
-2.  **Deploy:**
-    - Go to [Streamlit Cloud](https://streamlit.io/cloud).
-    - Sign in with GitHub.
-    - Click "New app".
-    - Select your repository, branch, and `app.py` as the main file.
-    - Click "Deploy".
+## 📸 Screenshots
+*(Add your screenshots here after running the app)*
+
