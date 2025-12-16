@@ -93,7 +93,7 @@ with st.sidebar:
     st.markdown("2. The system will analyze the image.")
     st.markdown("3. View the prediction result.")
     st.markdown("---")
-    st.markdown("Created by Antigravity")
+    st.markdown("Created by Muhammad Usman")
 
 # Main Page Content
 st.markdown("<h1>Brain Tumor Detection System (AI Powered)</h1>", unsafe_allow_html=True)
@@ -113,9 +113,12 @@ if model is None:
     if not os.path.exists('brain_tumor_model.h5'):
         with st.spinner("⚙️ Generating demo model for cloud environment (Auto-Heal)..."):
             import train_model
-            # Setup dummy data
-            train_model.EPOCHS = 5
-            train_model.create_dummy_data()
+            # Setup dummy data ONLY if no real data
+            train_dir = os.path.join("data", "train")
+            if not os.path.exists(train_dir) or not os.listdir(train_dir):
+                 train_model.create_dummy_data()
+            
+            train_model.EPOCHS = 10 
             train_model.train()
             st.success("✅ Model built successfully!")
             
@@ -204,4 +207,5 @@ else:
             except Exception as e:
                 st.error(f"Error processing image: {e}")
                 st.write("Make sure the image is a valid RGB image.")
+
 
