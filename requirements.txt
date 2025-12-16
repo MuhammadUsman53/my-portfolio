@@ -1,6 +1,8 @@
-tensorflow
+# Pinned versions to ensure compatibility and fix Keras loading error
+tensorflow==2.15.0
 streamlit
 numpy
 matplotlib
 pillow
 opencv-python-headless
+h5py
