@@ -98,26 +98,38 @@ with st.sidebar:
 # Main Page Content
 st.markdown("<h1>Brain Tumor Detection System (AI Powered)</h1>", unsafe_allow_html=True)
 
+# Check if model file exists but is invalid (e.g. from git lfs or version mismatch)
 model = load_model()
 
-import os
-
-# Check if model exists, if not, generate a demo one to prevent cloud crash
-if not os.path.exists('brain_tumor_model.h5'):
-    st.warning("⚠️ Model not found! Generating a demo model for first-time setup... This may take a minute.")
-    import train_model
-    # Reduce epochs for speed on cloud
-    train_model.EPOCHS = 5 
-    train_model.create_dummy_data()
-    train_model.train()
-    st.success("Model generated! Reloading...")
-    st.experimental_rerun()
+if model is None:
+    import os
+    if os.path.exists('brain_tumor_model.h5'):
+        st.warning("⚠️ potentially incompatible or corrupt model found. Removing to regenerate...")
+        os.remove('brain_tumor_model.h5')
+        # Clear cache to force reload
+        st.cache_resource.clear()
+    
+    # Now valid logic to generate if missing
+    if not os.path.exists('brain_tumor_model.h5'):
+        with st.spinner("⚙️ Generating demo model for cloud environment (Auto-Heal)..."):
+            import train_model
+            # Setup dummy data
+            train_model.EPOCHS = 5
+            train_model.create_dummy_data()
+            train_model.train()
+            st.success("✅ Model built successfully!")
+            
+            # Clear cache again to be sure
+            st.cache_resource.clear()
+            try:
+                st.rerun()
+            except AttributeError:
+                st.experimental_rerun()
 
 model = load_model()
 
 if model is None:
-    # Should not happen if the above block works, but just in case
-    st.error("⚠️ Model failed to load.")
+    st.error("❌ Critical Error: Model failed to load even after regeneration.")
     st.stop()
 
 file = st.file_uploader("Upload an MRI Scan", type=["jpg", "png", "jpeg"])
